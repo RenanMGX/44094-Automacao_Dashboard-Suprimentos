@@ -11,6 +11,6 @@ default:Dict[str, Dict[str,object]] = {
         'sap': 'SAP_PRD'
     },
     'path': {
-        'sharepoint_target': f"C:\\Users\\{getuser()}\\PATRIMAR ENGENHARIA S A\\RPA - Documentos\\RPA - Dados\\Relatorios\Relatorios Suprimentos"
+        'sharepoint_target': f"C:\\Users\\{getuser()}\\PATRIMAR ENGENHARIA S A\\RPA - Documentos\\RPA - Dados\\Relatorios\\Relatorios Suprimentos"
     }
 }
