@@ -6,5 +6,11 @@ default:Dict[str, Dict[str,object]] = {
         'hostname': 'Patrimar-RPA',
         'port': '80',
         'token': 'Central-RPA'
+    },
+    'crd': {
+        'sap': 'SAP_PRD'
+    },
+    'path': {
+        'sharepoint_target': f"C:\\Users\\{getuser()}\\PATRIMAR ENGENHARIA S A\\RPA - Documentos\\RPA - Dados\\Relatorios\Relatorios Suprimentos"
     }
 }
