@@ -60,7 +60,7 @@ class Utils:
                             destinity = os.path.join(destinity, name)
                         else:
                             raise Exception("nome do arquivo deve terminar com '.json'")
-                    pd.read_excel(origin).to_json(destinity, orient='records')
+                    pd.read_excel(origin).to_json(destinity, orient='records', date_format='iso')
                 else:
                     raise Exception(f"{destinity=} não existe!")
             else:
