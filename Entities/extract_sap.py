@@ -14,7 +14,7 @@ import os
 class ExtractSAP(SAPManipulation):
     def __init__(self):
         crd:dict = Credential(Config()['crd']['sap']).load()
-        super().__init__(user=crd['user'], password=crd['password'], ambiente=crd['ambiente'])
+        super().__init__(user=crd['user'], password=crd['password'], ambiente=crd['ambiente'], new_conection=True)
     
     @SAPManipulation.start_SAP
     def base_dados_dire(self, date:datetime=datetime.now()) -> str:
