@@ -1,9 +1,12 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from typing import Dict, List
+from Entities.dependencies.functions import Functions
 
 import pandas as pd
 import os
+import shutil
+from time import sleep
 
 class Utils:
     @staticmethod
@@ -37,7 +40,13 @@ class Utils:
                 planilha_path = planilha
                 planilha = pd.read_excel(planilha_path)
                 df = pd.concat([df, planilha], ignore_index=True)
-                os.unlink(planilha_path)
+                try:
+                    shutil.rmtree(planilha_path)
+                except PermissionError:
+                    Functions.fechar_excel(planilha_path)
+                    sleep(1)
+                    shutil.rmtree(planilha_path)
+                    
             else:
                 raise Exception(f"{planilha=} não é um arquivo excel!")
         
