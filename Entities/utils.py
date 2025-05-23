@@ -41,11 +41,11 @@ class Utils:
                 planilha = pd.read_excel(planilha_path)
                 df = pd.concat([df, planilha], ignore_index=True)
                 try:
-                    shutil.rmtree(planilha_path)
+                    os.remove(planilha_path)
                 except PermissionError:
                     Functions.fechar_excel(planilha_path)
                     sleep(1)
-                    shutil.rmtree(planilha_path)
+                    os.remove(planilha_path)
                     
             else:
                 raise Exception(f"{planilha=} não é um arquivo excel!")
