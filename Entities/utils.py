@@ -1,7 +1,7 @@
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from typing import Dict, List
-from Entities.dependencies.functions import Functions
+from patrimar_dependencies.functions import Functions
 
 import pandas as pd
 import os
@@ -83,3 +83,4 @@ if __name__ == "__main__":
     bot = Utils.get_dates_per_moth(datetime(2024,3,1))
     print("\n__main__\n")
     print(bot)
+    

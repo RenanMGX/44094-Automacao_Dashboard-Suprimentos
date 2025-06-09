@@ -1,24 +1,25 @@
-from dependencies.sap import SAPManipulation
-from dependencies.config import Config
-from dependencies.credenciais import Credential
-from dependencies.functions import Functions, P
+from patrimar_dependencies.sap import SAPManipulation
+from patrimar_dependencies.functions import Functions, P
 from utils import Utils, datetime, List, Dict
 from getpass import getuser
 from time import sleep
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
+from botcity.maestro import * #type: ignore
 
 import os
 
-
 class ExtractSAP(SAPManipulation):
-    def __init__(self):
-        crd:dict = Credential(Config()['crd']['sap']).load()
-        super().__init__(user=crd['user'], password=crd['password'], ambiente=crd['ambiente'], new_conection=True)
+    def __init__(self, *, maestro:BotMaestroSDK, user:str, password:str, ambiente:str):
+        super().__init__(user=user, password=password, ambiente=ambiente)
+        
+        self.download_path = os.path.join(os.getcwd(), "Downloads")
+        if not os.path.exists(self.download_path):
+            os.makedirs(self.download_path)
     
     @SAPManipulation.start_SAP
     def base_dados_dire(self, date:datetime=datetime.now()) -> str:
-        file = os.path.join(f'C:\\Users\\{getuser()}\\Downloads', datetime.now().strftime("%Y%m%d%H%M%S_base_dados_dire.xlsx"))
+        file = os.path.join(self.download_path, datetime.now().strftime("%Y%m%d%H%M%S_base_dados_dire.xlsx"))
         
         self.session.findById("wnd[0]/tbar[0]/okcd").text = "/n zmm010"
         self.session.findById("wnd[0]").sendVKey(0)
@@ -48,7 +49,7 @@ class ExtractSAP(SAPManipulation):
         list_of_dates:List[Dict[str, datetime]] = Utils.get_dates_per_moth(date)
         for dates in list_of_dates:
             month = dates['first_day'].strftime("%Y_%B")
-            file = os.path.join(f'C:\\Users\\{getuser()}\\Downloads', datetime.now().strftime(f"%Y%m%d%H%M%S_{month}_base_dados.xlsx"))
+            file = os.path.join(self.download_path, datetime.now().strftime(f"%Y%m%d%H%M%S_{month}_base_dados.xlsx"))
             
             self.session.findById("wnd[0]/tbar[0]/okcd").text = "/n zmm029"
             self.session.findById("wnd[0]").sendVKey(0)
