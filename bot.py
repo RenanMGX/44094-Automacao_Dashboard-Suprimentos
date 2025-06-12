@@ -25,6 +25,7 @@ https://documentation.botcity.dev/tutorials/custom-automations/python-custom/
 from botcity.maestro import * #type: ignore
 import traceback
 from patrimar_dependencies.gemini_ia import ErrorIA
+from patrimar_dependencies.screenshot import screenshot
 from Entities.extract_sap import ExtractSAP, Utils, datetime, os
 from time import sleep
 
@@ -117,7 +118,7 @@ if __name__ == '__main__':
             except Exception as e:
                 maestro.error(task_id=int(execution.task_id), exception=e)
 
-            maestro.error(task_id=int(execution.task_id), exception=error, tags={"IA Response": ia_response})
+            maestro.error(task_id=int(execution.task_id), exception=error, screenshot=screenshot(), tags={"IA Response": ia_response})
 
         sleep(5 * 60)
         

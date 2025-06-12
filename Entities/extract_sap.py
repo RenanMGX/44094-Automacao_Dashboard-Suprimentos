@@ -10,7 +10,7 @@ from botcity.maestro import * #type: ignore
 import os
 
 class ExtractSAP(SAPManipulation):
-    def __init__(self, *, maestro:BotMaestroSDK, user:str, password:str, ambiente:str):
+    def __init__(self, *, maestro:BotMaestroSDK|None, user:str, password:str, ambiente:str):
         super().__init__(user=user, password=password, ambiente=ambiente)
         
         self.download_path = os.path.join(os.getcwd(), "Downloads")
