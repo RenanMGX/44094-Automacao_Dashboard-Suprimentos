@@ -6,6 +6,7 @@ from time import sleep
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 from botcity.maestro import * #type: ignore
+import traceback
 
 import os
 
@@ -26,7 +27,7 @@ class ExtractSAP(SAPManipulation):
         self.session.findById("wnd[0]/usr/ctxtP_DTINI").text = Utils.first_day_of_last_year(date).strftime("%d.%m.%Y")
         self.session.findById("wnd[0]/usr/ctxtP_DTFIM").text = Utils.last_day_of_current_year(date).strftime("%d.%m.%Y")
         self.session.findById("wnd[0]/usr/ctxtP_VARI").text = "/WALLISON2"
-        self.session.findById("wnd[0]/tbar[1]/btn[8]").press()
+        self.session.findById("wnd[0]").sendVKey(8)
         
         self.session.findById("wnd[0]/usr/shell").pressToolbarContextButton("&MB_EXPORT")
         self.session.findById("wnd[0]/usr/shell").selectContextMenuItem("&XXL")
