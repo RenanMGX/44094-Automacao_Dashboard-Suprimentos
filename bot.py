@@ -26,6 +26,7 @@ from botcity.maestro import * #type: ignore
 import traceback
 from patrimar_dependencies.gemini_ia import ErrorIA
 from patrimar_dependencies.screenshot import screenshot
+from patrimar_dependencies.sharepointfolder import SharePointFolders
 from Entities.extract_sap import ExtractSAP, Utils, datetime, os
 from time import sleep
 
@@ -50,7 +51,7 @@ class Execute:
         if not isinstance(crd_param, str):
             raise ValueError("Parâmetro 'crd_param' deve ser uma string representando o label da credencial.")
         
-        sharepoint_target = f"C:\\Users\\{os.getlogin()}\\PATRIMAR ENGENHARIA S A\\RPA - Documentos\\RPA - Dados\\Relatorios\\Relatorios Suprimentos"
+        sharepoint_target = SharePointFolders(r'RPA - Dados\Relatorios\Relatorios Suprimentos').value
         if not os.path.exists(sharepoint_target):
             raise FileNotFoundError(f"O caminho {sharepoint_target} não existe. Verifique o caminho e tente novamente.")
     
