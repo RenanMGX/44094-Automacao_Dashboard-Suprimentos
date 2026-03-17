@@ -47,33 +47,47 @@ class ExtractSAP(SAPManipulation):
     def base_dados(self, date:datetime=datetime.now()) -> list:
         result:list = []
         
-        list_of_dates:List[Dict[str, datetime]] = Utils.get_dates_per_moth(date)
+        
+        last_day_of_last_year = Utils.last_day_of_current_year(Utils.first_day_of_last_year(date))
+        list_of_dates:List[Dict[str, datetime]] = Utils.get_dates_per_moth(last_day_of_last_year) + Utils.get_dates_per_moth(date)
+        
         for dates in list_of_dates:
-            month = dates['first_day'].strftime("%Y_%B")
-            file = os.path.join(self.download_path, datetime.now().strftime(f"%Y%m%d%H%M%S_{month}_base_dados.xlsx"))
-            
-            self.session.findById("wnd[0]/tbar[0]/okcd").text = "/n zmm029"
-            self.session.findById("wnd[0]").sendVKey(0)
-            self.session.findById("wnd[0]/usr/ctxtS_BADAT-LOW").text = dates['first_day'].strftime("%d.%m.%Y")
-            self.session.findById("wnd[0]/usr/ctxtS_BADAT-HIGH").text = dates['last_day'].strftime("%d.%m.%Y")
-            self.session.findById("wnd[0]/tbar[1]/btn[8]").press()
-            
-            self.session.findById("wnd[0]/usr/cntlGC_CCALV/shellcont/shell").pressToolbarContextButton("&MB_EXPORT")
-            self.session.findById("wnd[0]/usr/cntlGC_CCALV/shellcont/shell").selectContextMenuItem("&XXL")
-            self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
-            self.session.findById("wnd[1]/usr/ctxtDY_PATH").text = os.path.dirname(file)
-            self.session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = os.path.basename(file)
-            self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
-            
-            sleep(5)
-            
-            Functions.fechar_excel(file)
-            
-            result.append(file)
+            for _ in range(3):
+                try:
+                    month = dates['first_day'].strftime("%Y_%B")
+                    file = os.path.join(self.download_path, datetime.now().strftime(f"%Y%m%d%H%M%S_{month}_base_dados.xlsx"))
+                    
+                    self.session.findById("wnd[0]/tbar[0]/okcd").text = "/n zmm029"
+                    self.session.findById("wnd[0]").sendVKey(0)
+                    self.session.findById("wnd[0]/usr/ctxtS_BADAT-LOW").text = dates['first_day'].strftime("%d.%m.%Y")
+                    self.session.findById("wnd[0]/usr/ctxtS_BADAT-HIGH").text = dates['last_day'].strftime("%d.%m.%Y")
+                    self.session.findById("wnd[0]/tbar[1]/btn[8]").press()
+                    
+                    self.session.findById("wnd[0]/usr/cntlGC_CCALV/shellcont/shell").pressToolbarContextButton("&MB_EXPORT")
+                    self.session.findById("wnd[0]/usr/cntlGC_CCALV/shellcont/shell").selectContextMenuItem("&XXL")
+                    self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
+                    self.session.findById("wnd[1]/usr/ctxtDY_PATH").text = os.path.dirname(file)
+                    self.session.findById("wnd[1]/usr/ctxtDY_FILENAME").text = os.path.basename(file)
+                    self.session.findById("wnd[1]/tbar[0]/btn[0]").press()
+                    
+                    sleep(5)
+                    
+                    Functions.fechar_excel(file)
+                    
+                    result.append(file)
+                    break
+                except Exception as err:
+                    if _ >= 2:
+                        raise err
+                    else:
+                        continue
         
         self.fechar_sap()
         
         return result
+
+    def teste(self):
+        import pdb; pdb.set_trace()
 
 
 if __name__ == "__main__":

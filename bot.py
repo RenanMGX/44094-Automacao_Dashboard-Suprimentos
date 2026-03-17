@@ -35,8 +35,12 @@ from time import sleep
 BotMaestroSDK.RAISE_NOT_CONNECTED = False #type: ignore
 
 class Processados:
-    def __init__(self):
-        self.total_items = 1
+    @property
+    def total_items(self):
+        return self.__total_items
+    
+    def __init__(self, total_processador:int=1):
+        self.__total_items = total_processador
         self.processados = 0
         
 class Execute:
@@ -91,8 +95,7 @@ if __name__ == '__main__':
     print(f"Task ID is: {execution.task_id}")
     print(f"Task Parameters are: {execution.parameters}")
     
-    processados = Processados()
-    processados.total_items = 2
+    processados = Processados(2)
     
     try:
         Execute.start()

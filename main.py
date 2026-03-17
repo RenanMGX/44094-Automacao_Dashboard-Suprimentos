@@ -30,8 +30,10 @@ class Execute:
     
     @staticmethod
     def base_dados():
-        base_dados_path = Execute.sap.base_dados(Execute.date)
-        base_dados_path = Utils.concatenar_planilhas(base_dados_path)
+        #base_dados_path = Execute.sap.base_dados(Execute.date)
+        #base_dados_path = Utils.concatenar_planilhas(base_dados_path)
+        from pathlib import Path
+        base_dados_path = Utils.concatenar_planilhas([path.__str__() for path in Path(r'Downloads').iterdir() if path.is_file()])
         Utils.save_to_folder(
             origin=base_dados_path,
             destinity=Config()['path']['sharepoint_target'],

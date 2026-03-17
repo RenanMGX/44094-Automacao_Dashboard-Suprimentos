@@ -25,8 +25,8 @@ class Utils:
         dates:List[Dict[str, datetime]] = []
         for month in range(1, date.month+1):
             d = {
-                "first_day": date.replace(day=1, month=month),
-                "last_day": (date.replace(day=1, month=month) + relativedelta(months=1)) - relativedelta(days=1)
+                "first_day": date.replace(day=1, month=month, hour=0, minute=0, second=0, microsecond=0),
+                "last_day": (date.replace(day=1, month=month, hour=0, minute=0, second=0, microsecond=0) + relativedelta(months=1)) - relativedelta(days=1)
             }
             dates.append(d)
             
