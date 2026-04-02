@@ -80,10 +80,12 @@ class ExtractSAP(SAPManipulation):
                     self._base_dados_mes(file, dates)
                     
                     result.append(file)
+                    sleep(10)
                     break
                 except Exception as err:
                     if _ >= 2:
                         raise err
+                    sleep(10)
         
         return result
 
