@@ -79,6 +79,9 @@ class ExtractSAP(SAPManipulation):
                     
                     self._base_dados_mes(file, dates)
                     
+                    if not os.path.exists(file):
+                        raise FileNotFoundError(f"SAP não gerou o arquivo esperado: {file}")
+                    
                     result.append(file)
                     sleep(10)
                     break
